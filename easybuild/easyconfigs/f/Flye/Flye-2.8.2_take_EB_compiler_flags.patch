@@ -1,0 +1,61 @@
+Make sure the sub packages takes C/CXX flags from EB.
+
+Åke Sandgren, 2021-02-11
+diff -ru Flye-2.8.2.orig/lib/minimap2/Makefile Flye-2.8.2/lib/minimap2/Makefile
+--- Flye-2.8.2.orig/lib/minimap2/Makefile	2020-12-09 18:19:04.000000000 +0100
++++ Flye-2.8.2/lib/minimap2/Makefile	2021-02-09 12:43:33.085690235 +0100
+@@ -1,4 +1,4 @@
+-CFLAGS=		-g -Wall -O2 -Wc++-compat #-Wextra
++CFLAGS += -g -Wall -Wc++-compat #-Wextra
+ CPPFLAGS=	-DHAVE_KALLOC
+ INCLUDES=
+ OBJS=		kthread.o kalloc.o misc.o bseq.o sketch.o sdust.o options.o index.o chain.o align.o hit.o map.o format.o pe.o esterr.o splitidx.o ksw2_ll_sse.o
+diff -ru Flye-2.8.2.orig/lib/samtools-1.9/htslib-1.9/Makefile Flye-2.8.2/lib/samtools-1.9/htslib-1.9/Makefile
+--- Flye-2.8.2.orig/lib/samtools-1.9/htslib-1.9/Makefile	2020-12-09 18:19:04.000000000 +0100
++++ Flye-2.8.2/lib/samtools-1.9/htslib-1.9/Makefile	2021-02-09 12:46:33.156441127 +0100
+@@ -22,20 +22,20 @@
+ # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ # DEALINGS IN THE SOFTWARE.
+ 
+-CC     = gcc
++CC     := gcc
+ AR     = ar
+ RANLIB = ranlib
+ 
+ # Default libraries to link if configure is not used
+ htslib_default_libs = -lz -lm -lbz2 -llzma
+ 
+-CPPFLAGS =
++#CPPFLAGS =
+ # TODO: probably update cram code to make it compile cleanly with -Wc++-compat
+ # For testing strict C99 support add -std=c99 -D_XOPEN_SOURCE=600
+ #CFLAGS   = -g -Wall -O2 -pedantic -std=c99 -D_XOPEN_SOURCE=600 -D__FUNCTION__=__func__
+-CFLAGS   = -g -Wall -O2
++CFLAGS   += -Wall
+ EXTRA_CFLAGS_PIC = -fpic
+-LDFLAGS  =
++#LDFLAGS  =
+ LIBS     = $(htslib_default_libs)
+ 
+ prefix      = /usr/local
+diff -ru Flye-2.8.2.orig/lib/samtools-1.9/Makefile Flye-2.8.2/lib/samtools-1.9/Makefile
+--- Flye-2.8.2.orig/lib/samtools-1.9/Makefile	2020-12-09 18:19:04.000000000 +0100
++++ Flye-2.8.2/lib/samtools-1.9/Makefile	2021-02-09 12:46:50.044323938 +0100
+@@ -21,12 +21,13 @@
+ # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ # DEALINGS IN THE SOFTWARE.
+ 
+-CC       = gcc
++CC       := gcc
+ AR       = ar
+-CPPFLAGS =
++#CPPFLAGS =
+ #CFLAGS   = -g -Wall -O2 -pedantic -std=c99 -D_XOPEN_SOURCE=600
+-CFLAGS   = -g -Wall -O2
+-LDFLAGS  =
++#CFLAGS   = -g -Wall -O2
++CFLAGS   += -Wall
++#LDFLAGS  =
+ LIBS     =
+ 
+ LZ4DIR   = ./lz4
